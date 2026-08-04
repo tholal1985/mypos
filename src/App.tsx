@@ -9,6 +9,8 @@ import Products from '@/pages/products/Products'
 import Categories from '@/pages/products/Categories'
 import Brands from '@/pages/products/Brands'
 import Units from '@/pages/products/Units'
+import ProductCatalogue from '@/pages/catalogue/ProductCatalogue'
+import Spreadsheet from '@/pages/spreadsheet/Spreadsheet'
 import POS from '@/pages/pos/POS'
 import Sales from '@/pages/sales/Sales'
 import SaleDetail from '@/pages/sales/SaleDetail'
@@ -16,9 +18,12 @@ import Customers from '@/pages/contacts/Customers'
 import Suppliers from '@/pages/contacts/Suppliers'
 import Purchases from '@/pages/purchases/Purchases'
 import Expenses from '@/pages/expenses/Expenses'
+import EcommerceOrders from '@/pages/ecommerce/EcommerceOrders'
+import Cheques from '@/pages/cheque/Cheques'
 import Reports from '@/pages/reports/Reports'
 import Accounts from '@/pages/accounting/Accounts'
 import Transactions from '@/pages/accounting/Transactions'
+import Superadmin from '@/pages/superadmin/Superadmin'
 import CRMLeads from '@/pages/crm/CRMLeads'
 import RepairJobs from '@/pages/repair/RepairJobs'
 import Manufacturing from '@/pages/manufacturing/Manufacturing'
@@ -26,6 +31,14 @@ import Projects from '@/pages/projects/Projects'
 import Assets from '@/pages/assets/Assets'
 import GymMembers from '@/pages/gym/GymMembers'
 import CMSPages from '@/pages/cms/CMSPages'
+import FieldForce from '@/pages/fieldforce/FieldForce'
+import HMS from '@/pages/hms/HMS'
+import ZatcaInvoices from '@/pages/zatca/ZatcaInvoices'
+import InboxReport from '@/pages/inbox/InboxReport'
+import CustomDashboard from '@/pages/dashboard/CustomDashboard'
+import Connectors from '@/pages/connector/Connectors'
+import WooCommerce from '@/pages/woocommerce/WooCommerce'
+import AIAssistance from '@/pages/ai/AIAssistance'
 import Settings from '@/pages/settings/Settings'
 
 export default function App() {
@@ -57,15 +70,20 @@ export default function App() {
             <Route path="/categories" element={<Categories />} />
             <Route path="/brands" element={<Brands />} />
             <Route path="/units" element={<Units />} />
+            <Route path="/catalogues" element={<ProductCatalogue />} />
+            <Route path="/spreadsheet" element={<Spreadsheet />} />
             <Route path="/sales" element={<Sales />} />
             <Route path="/sales/:id" element={<SaleDetail />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/purchases" element={<Purchases />} />
             <Route path="/expenses" element={<Expenses />} />
+            <Route path="/ecommerce" element={<EcommerceOrders />} />
+            <Route path="/cheques" element={<Cheques />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/accounts" element={<Accounts />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/superadmin" element={<Superadmin />} />
             <Route path="/crm" element={<CRMLeads />} />
             <Route path="/repair" element={<RepairJobs />} />
             <Route path="/manufacturing" element={<Manufacturing />} />
@@ -73,6 +91,14 @@ export default function App() {
             <Route path="/assets" element={<Assets />} />
             <Route path="/gym" element={<GymMembers />} />
             <Route path="/cms" element={<CMSPages />} />
+            <Route path="/field-force" element={<FieldForce />} />
+            <Route path="/hms" element={<HMS />} />
+            <Route path="/zatca" element={<ZatcaInvoices />} />
+            <Route path="/inbox" element={<InboxReport />} />
+            <Route path="/custom-dashboards" element={<CustomDashboard />} />
+            <Route path="/connectors" element={<Connectors />} />
+            <Route path="/woocommerce" element={<WooCommerce />} />
+            <Route path="/ai" element={<AIAssistance />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
