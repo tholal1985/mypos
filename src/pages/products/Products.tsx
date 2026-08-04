@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import { supabase } from '@/lib/supabase'
 import { PageHeader, Modal, EmptyState, LoadingState, Badge } from '@/components/ui'
 import { formatCurrency } from '@/lib/utils'
-import { Package, Plus, Search, Pencil, Trash2, AlertTriangle } from 'lucide-react'
+import { Package, Plus, Search, Pencil, Trash2, TriangleAlert as AlertTriangle } from 'lucide-react'
 
 interface Product {
   id: string

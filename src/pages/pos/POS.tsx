@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useAuthStore } from '@/stores/auth'
 import { supabase } from '@/lib/supabase'
 import { formatCurrency, generateInvoiceNumber, cn } from '@/lib/utils'
-import { Search, ShoppingCart, Plus, Minus, X, Trash2, CreditCard, Banknote, CheckCircle, User } from 'lucide-react'
+import { Search, ShoppingCart, Plus, Minus, X, Trash2, CreditCard, Banknote, CircleCheck as CheckCircle, User } from 'lucide-react'
 
 interface Product {
   id: string
