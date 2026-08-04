@@ -1,0 +1,25 @@
+User-agent:*
+Allow:/
+Sitemap:https://faseyhapos.com/sitemap.xml
+Sitemap:https://faseyhapos.com/sitemap-1.xml
+Sitemap:https://faseyhapos.com/sitemap-2.xml
+Sitemap:https://faseyhapos.com/sitemap-3.xml
+Sitemap:https://faseyhapos.com/sitemap-4.xml
+Sitemap:https://faseyhapos.com/sitemap-5.xml
+Sitemap:https://faseyhapos.com/sitemap-6.xml
+Sitemap:https://faseyhapos.com/sitemap-7.xml
+Sitemap:https://faseyhapos.com/sitemap-8.xml
+Sitemap:https://faseyhapos.com/sitemap-9.xml
+Sitemap:https://faseyhapos.com/sitemap-10.xml
+Sitemap:https://faseyhapos.com/sitemap-11.xml
+Sitemap:https://faseyhapos.com/sitemap-12.xml
+Sitemap:https://faseyhapos.com/sitemap-13.xml
+Sitemap:https://faseyhapos.com/sitemap-14.xml
+Sitemap:https://faseyhapos.com/sitemap-15.xml
+Sitemap:https://faseyhapos.com/sitemap-16.xml
+Sitemap:https://faseyhapos.com/sitemap-17.xml
+Sitemap:https://faseyhapos.com/sitemap-18.xml
+Sitemap:https://faseyhapos.com/sitemap-19.xml
+
+Sitemap: https://faseyhapos.com/sitemap.xml
+Sitemap: https://faseyhapos.com/discount.php?sitemap.xml
