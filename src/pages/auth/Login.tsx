@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/auth'
-import { Store, Mail, Lock, AlertCircle } from 'lucide-react'
+import { Store, Mail, Lock, CircleAlert as AlertCircle } from 'lucide-react'
 
 export default function Login() {
   const navigate = useNavigate()

@@ -1,26 +1,4 @@
-import {
-  LayoutDashboard,
-  ShoppingCart,
-  Package,
-  FolderTree,
-  Tag,
-  Scale,
-  Receipt,
-  ListOrdered,
-  Users,
-  Truck,
-  Wallet,
-  BarChart3,
-  Landmark,
-  ArrowLeftRight,
-  UserPlus,
-  Wrench,
-  Factory,
-  FolderKanban,
-  Boxes,
-  Dumbbell,
-  FileText,
-} from 'lucide-react'
+import { LayoutDashboard, ShoppingCart, Package, FolderTree, Tag, Scale, Receipt, ListOrdered, Users, Truck, Wallet, ChartBar as BarChart3, Landmark, ArrowLeftRight, UserPlus, Wrench, Factory, FolderKanban, Boxes, Dumbbell, FileText } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 export interface NavItem {

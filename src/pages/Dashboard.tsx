@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import { supabase } from '@/lib/supabase'
 import { PageHeader, StatCard, LoadingState } from '@/components/ui'
 import { formatCurrency, formatDate } from '@/lib/utils'
-import { DollarSign, ShoppingCart, Package, TrendingUp, AlertTriangle, Users } from 'lucide-react'
+import { DollarSign, ShoppingCart, Package, TrendingUp, TriangleAlert as AlertTriangle, Users } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell, Legend,
