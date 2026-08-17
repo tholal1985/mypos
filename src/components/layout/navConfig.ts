@@ -6,6 +6,7 @@ export interface NavItem {
   path: string
   icon: LucideIcon
   group: string
+  platformAdminOnly?: boolean
 }
 
 export const icons: NavItem[] = [
@@ -31,7 +32,7 @@ export const icons: NavItem[] = [
   { label: 'Reports', path: '/reports', icon: BarChart3, group: 'finance' },
   { label: 'Accounts', path: '/accounts', icon: Landmark, group: 'finance' },
   { label: 'Transactions', path: '/transactions', icon: ArrowLeftRight, group: 'finance' },
-  { label: 'Superadmin', path: '/superadmin', icon: Crown, group: 'finance' },
+  { label: 'Superadmin', path: '/superadmin', icon: Crown, group: 'finance', platformAdminOnly: true },
 
   { label: 'CRM Leads', path: '/crm', icon: UserPlus, group: 'modules' },
   { label: 'Repair Jobs', path: '/repair', icon: Wrench, group: 'modules' },

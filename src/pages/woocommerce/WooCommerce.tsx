@@ -17,7 +17,7 @@ export default function WooCommerce() {
   const load = useCallback(async () => {
     if (!business) return
     setLoading(true)
-    const { data } = await supabase.from('woocommerce_settings').select('*').eq('business_id', business.id).maybeSingle()
+    const { data } = await supabase.from('woocommerce_settings').select('id, business_id, store_url, consumer_key, auto_sync, sync_interval, status, last_sync_at').eq('business_id', business.id).maybeSingle()
     setSettings(data); setLoading(false)
   }, [business])
 
@@ -25,7 +25,8 @@ export default function WooCommerce() {
 
   const save = async () => {
     if (!business || !form.store_url) return
-    const payload = { store_url: form.store_url, consumer_key: form.consumer_key, consumer_secret: form.consumer_secret, auto_sync: form.auto_sync, sync_interval: parseInt(form.sync_interval) || 60, status: 'connected' }
+    const payload: Record<string, unknown> = { store_url: form.store_url, consumer_key: form.consumer_key, auto_sync: form.auto_sync, sync_interval: parseInt(form.sync_interval) || 60, status: 'connected' }
+    if (form.consumer_secret) payload.consumer_secret = form.consumer_secret
     if (settings) {
       await supabase.from('woocommerce_settings').update(payload).eq('id', settings.id)
     } else {
@@ -73,7 +74,7 @@ export default function WooCommerce() {
               <div className="flex justify-between py-2 border-b border-gray-100"><span className="text-gray-500">Sync Interval</span><span>{settings.sync_interval} min</span></div>
               <div className="flex justify-between py-2 border-b border-gray-100"><span className="text-gray-500">Last Sync</span><span>{settings.last_sync_at ? formatDateTime(settings.last_sync_at) : 'Never'}</span></div>
             </div>
-            <button onClick={() => { setForm({ store_url: settings.store_url, consumer_key: settings.consumer_key || '', consumer_secret: settings.consumer_secret || '', auto_sync: settings.auto_sync, sync_interval: String(settings.sync_interval) }); setShowModal(true) }} className="btn-secondary mt-4"><Pencil className="w-4 h-4" /> Edit Settings</button>
+            <button onClick={() => { setForm({ store_url: settings.store_url, consumer_key: settings.consumer_key || '', consumer_secret: '', auto_sync: settings.auto_sync, sync_interval: String(settings.sync_interval) }); setShowModal(true) }} className="btn-secondary mt-4"><Pencil className="w-4 h-4" /> Edit Settings</button>
           </div>
         )}
       </div>
@@ -82,7 +83,7 @@ export default function WooCommerce() {
           <div><label className="label">Store URL *</label><input value={form.store_url} onChange={e => setForm({ ...form, store_url: e.target.value })} className="input" placeholder="https://yourstore.com" /></div>
           <div className="grid grid-cols-2 gap-4">
             <div><label className="label">Consumer Key</label><input value={form.consumer_key} onChange={e => setForm({ ...form, consumer_key: e.target.value })} className="input" /></div>
-            <div><label className="label">Consumer Secret</label><input type="password" value={form.consumer_secret} onChange={e => setForm({ ...form, consumer_secret: e.target.value })} className="input" /></div>
+            <div><label className="label">Consumer Secret</label><input type="password" value={form.consumer_secret} onChange={e => setForm({ ...form, consumer_secret: e.target.value })} className="input" placeholder={settings ? 'Leave blank to keep current secret' : ''} /></div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div><label className="label flex items-center gap-2"><input type="checkbox" checked={form.auto_sync} onChange={e => setForm({ ...form, auto_sync: e.target.checked })} /> Enable Auto Sync</label></div>

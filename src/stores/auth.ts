@@ -18,6 +18,7 @@ interface AuthState {
   user: User | null
   business: Business | null
   businesses: Business[]
+  isPlatformAdmin: boolean
   loading: boolean
   error: string | null
   signIn: (email: string, password: string) => Promise<void>
@@ -25,6 +26,7 @@ interface AuthState {
   signOut: () => Promise<void>
   setBusiness: (business: Business) => void
   refreshBusinesses: () => Promise<void>
+  refreshPlatformAdmin: () => Promise<void>
   initialize: () => Promise<void>
 }
 
@@ -33,6 +35,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   business: null,
   businesses: [],
+  isPlatformAdmin: false,
   loading: true,
   error: null,
 
@@ -41,6 +44,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (session) {
       set({ session, user: session.user })
       await get().refreshBusinesses()
+      await get().refreshPlatformAdmin()
     }
     set({ loading: false })
 
@@ -49,8 +53,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ session, user: session?.user ?? null })
         if (session) {
           await get().refreshBusinesses()
+          await get().refreshPlatformAdmin()
         } else {
-          set({ business: null, businesses: [] })
+          set({ business: null, businesses: [], isPlatformAdmin: false })
         }
       })()
     })
@@ -66,7 +71,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       .eq('user_id', user.id)
 
     if (error) {
-      set({ error: error.message })
+      console.error('Failed to load businesses', error)
+      set({ error: 'We could not load your business information. Please try again.' })
       return
     }
 
@@ -79,6 +85,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const selected = current ?? (defaultBu?.businesses as unknown as Business) ?? businesses[0] ?? null
 
     set({ businesses, business: selected })
+  },
+
+  refreshPlatformAdmin: async () => {
+    const user = get().user
+    if (!user) {
+      set({ isPlatformAdmin: false })
+      return
+    }
+    const { data } = await supabase
+      .from('platform_admins')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .maybeSingle()
+    set({ isPlatformAdmin: !!data })
   },
 
   signIn: async (email, password) => {
@@ -94,8 +114,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ error: null })
     const { data, error } = await supabase.auth.signUp({ email, password })
     if (error) {
-      set({ error: error.message })
-      throw error
+      console.error('Sign up failed', error)
+      const generic = 'We could not create your account with those details. Please check them and try again.'
+      set({ error: generic })
+      throw new Error(generic)
     }
 
     if (data.user) {
@@ -120,7 +142,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signOut: async () => {
     await supabase.auth.signOut()
-    set({ session: null, user: null, business: null, businesses: [] })
+    set({ session: null, user: null, business: null, businesses: [], isPlatformAdmin: false })
   },
 
   setBusiness: (business) => {

@@ -6,17 +6,19 @@ import { ChevronDown, Store, LogOut, Settings } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Sidebar() {
-  const { business, businesses, setBusiness, signOut, user } = useAuthStore()
+  const { business, businesses, setBusiness, signOut, user, isPlatformAdmin } = useAuthStore()
   const navigate = useNavigate()
   const [showBusinessMenu, setShowBusinessMenu] = useState(false)
 
+  const visible = icons.filter(i => !i.platformAdminOnly || isPlatformAdmin)
+
   const groupedNav: { group: string; items: NavItem[] }[] = [
-    { group: 'Main', items: icons.filter(i => i.group === 'main') },
-    { group: 'Inventory', items: icons.filter(i => i.group === 'inventory') },
-    { group: 'Sales', items: icons.filter(i => i.group === 'sales') },
-    { group: 'Contacts', items: icons.filter(i => i.group === 'contacts') },
-    { group: 'Finance', items: icons.filter(i => i.group === 'finance') },
-    { group: 'Modules', items: icons.filter(i => i.group === 'modules') },
+    { group: 'Main', items: visible.filter(i => i.group === 'main') },
+    { group: 'Inventory', items: visible.filter(i => i.group === 'inventory') },
+    { group: 'Sales', items: visible.filter(i => i.group === 'sales') },
+    { group: 'Contacts', items: visible.filter(i => i.group === 'contacts') },
+    { group: 'Finance', items: visible.filter(i => i.group === 'finance') },
+    { group: 'Modules', items: visible.filter(i => i.group === 'modules') },
   ]
 
   return (

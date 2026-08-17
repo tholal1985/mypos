@@ -8,7 +8,7 @@ import { Plus, Pencil, Trash2, Crown, CreditCard, Users, Building2 } from 'lucid
 const STATUS_COLORS: Record<string, 'green' | 'red' | 'yellow' | 'gray'> = { active: 'green', expired: 'red', suspended: 'yellow', cancelled: 'gray' }
 
 export default function Superadmin() {
-  const { business } = useAuthStore()
+  const { business, isPlatformAdmin } = useAuthStore()
   const [tab, setTab] = useState<'plans' | 'subscriptions'>('plans')
   const [plans, setPlans] = useState<any[]>([])
   const [subscriptions, setSubscriptions] = useState<any[]>([])
@@ -47,7 +47,7 @@ export default function Superadmin() {
 
   return (
     <div>
-      <PageHeader title="Superadmin" subtitle="SaaS plan & subscription management" actions={tab === 'plans' ? <button onClick={() => { setEditing(null); setForm({ name: '', price: '0', billing_cycle: 'monthly', max_users: '5', max_products: '100', is_active: true }); setShowModal(true) }} className="btn-primary"><Plus className="w-4 h-4" /> Add Plan</button> : undefined} />
+      <PageHeader title="Superadmin" subtitle="SaaS plan & subscription management" actions={tab === 'plans' && isPlatformAdmin ? <button onClick={() => { setEditing(null); setForm({ name: '', price: '0', billing_cycle: 'monthly', max_users: '5', max_products: '100', is_active: true }); setShowModal(true) }} className="btn-primary"><Plus className="w-4 h-4" /> Add Plan</button> : undefined} />
       <div className="px-6">
         <div className="flex gap-2 mb-4">
           <button onClick={() => setTab('plans')} className={`px-4 py-2 rounded-lg text-sm font-medium ${tab === 'plans' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>Plans ({plans.length})</button>
@@ -61,7 +61,7 @@ export default function Superadmin() {
               <div key={p.id} className="card p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center"><Crown className="w-5 h-5 text-primary-600" /></div>
-                  <div className="flex gap-1"><button onClick={() => { setEditing(p); setForm({ name: p.name, price: String(p.price), billing_cycle: p.billing_cycle, max_users: String(p.max_users), max_products: String(p.max_products), is_active: p.is_active }); setShowModal(true) }} className="p-1.5 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded"><Pencil className="w-4 h-4" /></button><button onClick={() => del(p.id)} className="p-1.5 text-gray-400 hover:text-error-600 hover:bg-error-50 rounded"><Trash2 className="w-4 h-4" /></button></div>
+                  {isPlatformAdmin && <div className="flex gap-1"><button onClick={() => { setEditing(p); setForm({ name: p.name, price: String(p.price), billing_cycle: p.billing_cycle, max_users: String(p.max_users), max_products: String(p.max_products), is_active: p.is_active }); setShowModal(true) }} className="p-1.5 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded"><Pencil className="w-4 h-4" /></button><button onClick={() => del(p.id)} className="p-1.5 text-gray-400 hover:text-error-600 hover:bg-error-50 rounded"><Trash2 className="w-4 h-4" /></button></div>}
                 </div>
                 <p className="text-lg font-bold text-gray-900">{p.name}</p>
                 <p className="text-2xl font-bold text-primary-600 mt-1">{formatCurrency(Number(p.price), business?.currency, sym)}<span className="text-sm font-normal text-gray-400">/{p.billing_cycle}</span></p>
@@ -83,7 +83,7 @@ export default function Superadmin() {
                       <td className="table-cell text-gray-500">{formatDate(s.start_date)}</td>
                       <td className="table-cell text-gray-500">{s.end_date ? formatDate(s.end_date) : '-'}</td>
                       <td className="table-cell"><Badge color={STATUS_COLORS[s.status] || 'gray'}>{s.status}</Badge></td>
-                      <td className="table-cell text-right"><button onClick={() => del(s.id)} className="p-1.5 text-gray-400 hover:text-error-600 hover:bg-error-50 rounded inline-flex"><Trash2 className="w-4 h-4" /></button></td>
+                      <td className="table-cell text-right">{isPlatformAdmin && <button onClick={() => del(s.id)} className="p-1.5 text-gray-400 hover:text-error-600 hover:bg-error-50 rounded inline-flex"><Trash2 className="w-4 h-4" /></button>}</td>
                     </tr>
                   ))}
                 </tbody>

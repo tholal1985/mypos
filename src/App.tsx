@@ -42,7 +42,7 @@ import AIAssistance from '@/pages/ai/AIAssistance'
 import Settings from '@/pages/settings/Settings'
 
 export default function App() {
-  const { loading, user, initialize } = useAuthStore()
+  const { loading, user, isPlatformAdmin, initialize } = useAuthStore()
 
   useEffect(() => {
     initialize()
@@ -83,7 +83,7 @@ export default function App() {
             <Route path="/reports" element={<Reports />} />
             <Route path="/accounts" element={<Accounts />} />
             <Route path="/transactions" element={<Transactions />} />
-            <Route path="/superadmin" element={<Superadmin />} />
+            <Route path="/superadmin" element={isPlatformAdmin ? <Superadmin /> : <Navigate to="/" replace />} />
             <Route path="/crm" element={<CRMLeads />} />
             <Route path="/repair" element={<RepairJobs />} />
             <Route path="/manufacturing" element={<Manufacturing />} />

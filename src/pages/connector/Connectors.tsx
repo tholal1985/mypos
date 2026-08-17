@@ -18,7 +18,7 @@ export default function Connectors() {
   const load = useCallback(async () => {
     if (!business) return
     setLoading(true)
-    const { data } = await supabase.from('api_connectors').select('*').eq('business_id', business.id).order('created_at', { ascending: false })
+    const { data } = await supabase.from('api_connectors').select('id, business_id, name, provider, api_url, auth_type, status, last_sync_at, created_at').eq('business_id', business.id).order('created_at', { ascending: false })
     setItems(data || []); setLoading(false)
   }, [business])
 
@@ -26,9 +26,9 @@ export default function Connectors() {
 
   const save = async () => {
     if (!business || !form.name) return
-    const credentials: Record<string, string> = {}
-    if (form.api_key) credentials.api_key = form.api_key
-    const payload = { name: form.name, provider: form.provider, api_url: form.api_url, auth_type: form.auth_type, credentials, status: form.status }
+    const payload: Record<string, unknown> = { name: form.name, provider: form.provider, api_url: form.api_url, auth_type: form.auth_type, status: form.status }
+    if (form.api_key) payload.credentials = { api_key: form.api_key }
+    else if (!editing) payload.credentials = {}
     if (editing) await supabase.from('api_connectors').update(payload).eq('id', editing.id)
     else await supabase.from('api_connectors').insert({ ...payload, business_id: business.id })
     setShowModal(false); setEditing(null); setForm({ name: '', provider: '', api_url: '', auth_type: 'api_key', api_key: '', status: 'inactive' }); load()

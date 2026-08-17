@@ -53,7 +53,7 @@ export default function Purchases() {
           unit_cost: parseFloat(l.unit_cost) || 0,
           total: (parseFloat(l.quantity) || 0) * (parseFloat(l.unit_cost) || 0),
         })),
-        ...validLines.map(l => supabase.rpc('increment_stock', { p_id: l.product_id, qty: parseFloat(l.quantity) || 0 }).then(() => supabase.from('products').update({ stock: (products.find(p => p.id === l.product_id)?.stock || 0) + (parseFloat(l.quantity) || 0) }).eq('id', l.product_id))),
+        ...validLines.map(l => supabase.rpc('adjust_stock', { p_id: l.product_id, delta: Math.max(0, parseFloat(l.quantity) || 0) })),
       ])
     }
     setShowModal(false); setForm({ supplier_id: '', reference_number: '', paid_amount: '0' }); setLines([{ product_id: '', quantity: '1', unit_cost: '0' }]); load()

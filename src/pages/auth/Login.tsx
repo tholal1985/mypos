@@ -19,7 +19,7 @@ export default function Login() {
       await signIn(email, password)
       navigate('/')
     } catch (err: any) {
-      setLocalError(err.message)
+      setLocalError(err?.message === 'Invalid login credentials' ? 'Incorrect email or password.' : 'We could not sign you in. Please try again.')
     } finally {
       setLoading(false)
     }

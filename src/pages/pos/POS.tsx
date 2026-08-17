@@ -81,9 +81,10 @@ export default function POS() {
   const removeFromCart = (id: string) => setCart(prev => prev.filter(i => i.productId !== id))
 
   const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0)
-  const discountAmount = parseFloat(discount) || 0
+  const discountInput = parseFloat(discount) || 0
+  const discountAmount = Math.min(Math.max(0, discountInput), subtotal)
   const total = subtotal - discountAmount
-  const paid = parseFloat(paidAmount) || 0
+  const paid = Math.max(0, parseFloat(paidAmount) || 0)
   const change = paid - total
 
   const checkout = async () => {
@@ -117,7 +118,7 @@ export default function POS() {
           amount: paid || total,
           method: paymentMethod,
         }),
-        ...cart.map(i => supabase.from('products').update({ stock: i.stock - i.quantity }).eq('id', i.productId)),
+        ...cart.map(i => supabase.rpc('adjust_stock', { p_id: i.productId, delta: -i.quantity })),
       ])
     }
 
@@ -219,7 +220,7 @@ export default function POS() {
             <div className="flex justify-between text-sm"><span className="text-gray-500">Subtotal</span><span className="font-medium">{formatCurrency(subtotal, business?.currency, sym)}</span></div>
             <div className="flex justify-between items-center text-sm">
               <span className="text-gray-500">Discount</span>
-              <input type="number" step="0.01" value={discount} onChange={e => setDiscount(e.target.value)} className="w-24 text-right input py-1" />
+              <input type="number" step="0.01" min="0" max={subtotal} value={discount} onChange={e => setDiscount(e.target.value)} className="w-24 text-right input py-1" />
             </div>
             <div className="flex justify-between text-base font-bold pt-1 border-t border-gray-100"><span>Total</span><span className="text-primary-600">{formatCurrency(total, business?.currency, sym)}</span></div>
           </div>

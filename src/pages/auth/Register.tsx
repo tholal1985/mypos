@@ -19,8 +19,8 @@ export default function Register() {
     try {
       await signUp(email, password, businessName)
       navigate('/')
-    } catch (err: any) {
-      setLocalError(err.message)
+    } catch {
+      setLocalError('We could not create your account with those details. Please check them and try again.')
     } finally {
       setLoading(false)
     }
